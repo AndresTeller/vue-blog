@@ -5,9 +5,9 @@ import BlogPost from "./BlogPost.vue";
 
 <template>
   <section
-    class="relative flex flex-col items-center justify-center p-10 gap-y-4"
+    class="p-10 gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center container mx-auto"
   >
-    <h1 class="text-2xl font-bold">Recent Blog Posts</h1>
+    <!-- <h1 class="col-span-full font-bold text-5xl">Recent Blog Posts</h1> -->
     <BlogPost
       v-for="{ id, title, description, imgUrl, date, href, tags } in blogPosts"
       :key="id"
@@ -17,7 +17,7 @@ import BlogPost from "./BlogPost.vue";
       :title="title"
       :img-url="imgUrl"
       :description="description"
-      class="max-w-sm"
+      class="max-w-md md:first:w-full md:first:max-w-none md:first:col-span-full min-h-[500px] lg:first:col-span-2 lg:last:col-span-2 lg:last:w-full lg:last:max-w-none md:last:col-span-full md:last:w-full md:last:max-w-none"
     />
   </section>
 </template>

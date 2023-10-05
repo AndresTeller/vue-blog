@@ -48,14 +48,14 @@ defineProps({
         <img
           :src="imgUrl"
           alt="Blog Post"
-          class="rounded-md w-96 h-64 object-cover"
+          class="rounded-md w-full h-64 object-cover"
         />
       </div>
       <span class="text-[#6941C6] font-semibold">{{ date }}</span>
       <!-- TO DO: Add link with href -->
       <CardTitle class="flex justify-between items-center">
         {{ title }}
-        <ArrowUpRight class="h-7 w-7"/>
+        <ArrowUpRight class="h-7 w-7" />
       </CardTitle>
       <CardDescription>{{ description }}</CardDescription>
     </CardHeader>
