@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { ArrowUpRight } from "lucide-vue-next";
 
 defineProps({
   title: {
@@ -51,7 +52,11 @@ defineProps({
         />
       </div>
       <span class="text-[#6941C6] font-semibold">{{ date }}</span>
-      <CardTitle>{{ title }}</CardTitle>
+      <!-- TO DO: Add link with href -->
+      <CardTitle class="flex justify-between items-center">
+        {{ title }}
+        <ArrowUpRight class="h-7 w-7"/>
+      </CardTitle>
       <CardDescription>{{ description }}</CardDescription>
     </CardHeader>
     <CardFooter class="flex gap-x-1 gap-y-2 flex-wrap">
