@@ -2,7 +2,6 @@
 import { computed, onMounted } from "vue";
 import BlogPost from "./BlogPost.vue";
 import { useRouter } from "vue-router";
-// import { blogPosts } from "@/constants";
 import { IBlogPost } from "@/interfaces";
 import { useBlogPostStore } from "@/store/useBlogPostStore";
 
@@ -17,7 +16,7 @@ defineProps({
   },
 });
 
-const redirectToBlogPost = (id: number) => {
+const redirectToBlogPost = (id: string) => {
   router.push({
     name: "Blog",
     params: { id },

@@ -1,11 +1,11 @@
 export interface ITag {
-  id: number;
+  id: string;
   name: string;
   color: "blue" | "green" | "purple" | "red";
 }
 
 export interface IBlogPost {
-  id: number;
+  id: string;
   title: string;
   description: string;
   imgUrl: string;

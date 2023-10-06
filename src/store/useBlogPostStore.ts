@@ -10,8 +10,11 @@ export const useBlogPostStore = defineStore("use-blog-post", () => {
 
   function seedBlogPosts() {
     blogPosts.value = blogPostsMock;
-    console.log(recentBlogPosts.value);
   }
 
-  return { blogPosts, recentBlogPosts, seedBlogPosts };
+  function getBlogPost(id: string): IBlogPost | undefined {
+    return blogPosts.value.find((blog) => blog.id === id);
+  }
+
+  return { blogPosts, recentBlogPosts, seedBlogPosts, getBlogPost };
 });
