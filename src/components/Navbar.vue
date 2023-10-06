@@ -6,18 +6,18 @@ import { navLinks } from "@/constants";
   <nav
     class="hidden md:flex justify-between items-center container mx-auto pt-5"
   >
-    <a href="/">
+    <router-link to="/">
       <span class="text-2xl font-bold">AndrésTeller</span>
-    </a>
+    </router-link>
     <div class="flex gap-x-10">
-      <a
+      <router-link
         class="text-slate-900 hover:text-slate-900/75"
         v-for="navlink in navLinks"
-        :href="navlink.href"
+        :to="navlink.href"
         :key="navlink.id"
       >
         {{ navlink.label }}
-      </a>
+      </router-link>
     </div>
   </nav>
 </template>

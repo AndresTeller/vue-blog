@@ -18,8 +18,8 @@ export const navLinks = [
   },
   {
     id: 4,
-    label: "Newsletter",
-    href: "/newsletter",
+    label: "Login",
+    href: "/login",
   },
 ];
 
