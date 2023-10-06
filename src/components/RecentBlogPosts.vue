@@ -2,19 +2,12 @@
 import { computed, onMounted } from "vue";
 import BlogPost from "./BlogPost.vue";
 import { useRouter } from "vue-router";
-import { IBlogPost } from "@/interfaces";
 import { useBlogPostStore } from "@/store/useBlogPostStore";
 
 const router = useRouter();
 const blogPostsStore = useBlogPostStore();
 const blogPosts = computed(() => blogPostsStore.recentBlogPosts);
 
-defineProps({
-  recentBlogPosts: {
-    type: Array<IBlogPost>,
-    required: true,
-  },
-});
 
 const redirectToBlogPost = (id: string) => {
   router.push({
