@@ -4,6 +4,18 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
+import { ref } from "vue";
+
+const user = ref({
+  name: "",
+  lastname: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+  isConfirmedTermsAndConditions: false,
+})
+
+
 </script>
 
 <template>
@@ -17,6 +29,7 @@ import { Button } from "@/components/ui/button";
         placeholder="John"
         id="name"
         class="p-6 focus-visible:ring-transparent"
+        v-model="user.name"
       />
     </div>
     <div>
@@ -26,6 +39,7 @@ import { Button } from "@/components/ui/button";
         placeholder="Doe"
         id="lastname"
         class="p-6 focus-visible:ring-transparent"
+        v-model="user.lastname"
       />
     </div>
     <div>
@@ -35,6 +49,7 @@ import { Button } from "@/components/ui/button";
         placeholder="Email"
         id="email"
         class="p-6 focus-visible:ring-transparent"
+        v-model="user.email"
       />
     </div>
     <div>
@@ -44,6 +59,7 @@ import { Button } from "@/components/ui/button";
         placeholder="password"
         id="password"
         class="p-6 focus-visible:ring-transparent"
+        v-model="user.password"
       />
     </div>
     <div>
@@ -53,12 +69,13 @@ import { Button } from "@/components/ui/button";
         placeholder="password"
         id="confirmPassword"
         class="p-6 focus-visible:ring-transparent"
+        v-model="user.confirmPassword"
       />
     </div>
 
     <div class="flex justify-between">
       <div class="flex items-center space-x-2">
-        <Checkbox id="terms" />
+        <Checkbox id="terms" v-model="user.isConfirmedTermsAndConditions"/>
         <label
           htmlFor="terms"
           class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -67,7 +84,7 @@ import { Button } from "@/components/ui/button";
         </label>
       </div>
     </div>
-    <Button class="">Sign in</Button>
+    <Button>Sign in</Button>
     <p>
       Already have an account?
       <router-link
