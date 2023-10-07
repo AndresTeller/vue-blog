@@ -29,6 +29,7 @@ export const blogPosts: IBlogPost[] = [
     title: "UX review presentations",
     description:
       "How do you create compelling presentations that wow your colleagues and impress your managers?",
+    content: "",
     date: "Sunday, 1 Jan 2023",
     href: "/test-1",
     imgUrl:
@@ -61,6 +62,7 @@ export const blogPosts: IBlogPost[] = [
     title: "Migrating to Linear 101",
     description:
       "Linear helps streamline software projects, sprints, tasks, and bug tracking. Here’s how to get...",
+    content: "",
     date: "Sunday, 1 Jan 2023",
     href: "/test-1",
     imgUrl:
@@ -83,6 +85,7 @@ export const blogPosts: IBlogPost[] = [
     title: "Building your API Stack",
     description:
       "The rise of RESTful APIs has been met by a rise in tools for creating, testing, and manage...",
+    content: "",
     date: "Sunday, 1 Jan 2023",
     href: "/test-1",
     imgUrl:
@@ -105,6 +108,7 @@ export const blogPosts: IBlogPost[] = [
     title: "Grid system for better Design User Interface",
     description:
       "A grid system is a design tool used to arrange content on a webpage. ",
+    content: "",
     date: "Sunday, 1 Jan 2023",
     href: "/test-1",
     imgUrl:
@@ -127,6 +131,7 @@ export const blogPosts: IBlogPost[] = [
     title: "Grid system for better Design User Interface",
     description:
       "A grid system is a design tool used to arrange content on a webpage. ",
+    content: "",
     date: "Sunday, 1 Jan 2023",
     href: "/test-1",
     imgUrl:
@@ -149,6 +154,7 @@ export const blogPosts: IBlogPost[] = [
     title: "Grid system for better Design User Interface",
     description:
       "A grid system is a design tool used to arrange content on a webpage. ",
+    content: "",
     date: "Sunday, 1 Jan 2023",
     href: "/test-1",
     imgUrl:

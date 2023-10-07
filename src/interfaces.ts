@@ -4,12 +4,20 @@ export interface ITag {
   color: "blue" | "green" | "purple" | "red";
 }
 
+export interface IUser {
+  id: string;
+  name: string;
+  lastname: string;
+  blogposts: Array<IBlogPost>
+}
+
 export interface IBlogPost {
   id: string;
   title: string;
   description: string;
+  content: string;
   imgUrl: string;
   href: string;
   date: string;
-  tags: ITag[];
+  tags: Array<ITag>;
 }
