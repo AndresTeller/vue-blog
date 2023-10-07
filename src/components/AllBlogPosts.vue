@@ -9,14 +9,13 @@ import BlogPost from "./BlogPost.vue";
   >
     <h1 class="text-5xl font-bold col-span-full">All Blog Posts</h1>
     <router-link
-      v-for="{ id, title, description, imgUrl, date, href, tags } in blogPosts"
+      v-for="{ id, title, description, imgUrl, date, tags } in blogPosts"
       :to="{ name: 'Blog', params: { id } }"
     >
       <BlogPost
         :key="id"
         :date="date"
         :tags="tags"
-        :href="href"
         :title="title"
         :img-url="imgUrl"
         :description="description"

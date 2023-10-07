@@ -36,13 +36,11 @@ onMounted(() => {
           description,
           imgUrl,
           date,
-          href,
           tags,
         } in blogPosts"
         :key="id"
         :date="date"
         :tags="tags"
-        :href="href"
         :title="title"
         :img-url="imgUrl"
         :description="description"

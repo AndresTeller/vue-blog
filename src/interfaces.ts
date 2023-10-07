@@ -17,7 +17,6 @@ export interface IBlogPost {
   description: string;
   content: string;
   imgUrl: string;
-  href: string;
   date: string;
   tags: Array<ITag>;
 }

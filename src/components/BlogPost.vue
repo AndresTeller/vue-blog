@@ -23,10 +23,6 @@ defineProps({
     type: String,
     required: true,
   },
-  href: {
-    type: String,
-    required: true,
-  },
   date: {
     //TO DO: Change type String to Date
     type: String,
