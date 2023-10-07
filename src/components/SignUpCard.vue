@@ -41,7 +41,7 @@ const form = useForm({
 
 const onOpenChange = (value: boolean) => {
   isOpen.value = value;
-}
+};
 
 const onSubmit = form.handleSubmit((values) => {
   const isPasswordWrong = values.confirmPassword !== values.password;
@@ -145,10 +145,16 @@ const onSubmit = form.handleSubmit((values) => {
         </FormItem>
       </FormField>
 
-      <Button type="submit" class="w-full">
-        Create an account
-      </Button>
+      <Button type="submit" class="w-full"> Create an account </Button>
     </form>
+    <p>
+      Already have an account?
+      <router-link
+        :to="{ name: 'Login' }"
+        class="text-blue-800 hover:text-blue-800/75"
+        >Login here</router-link
+      >
+    </p>
   </Card>
 
   <Dialog :open="isOpen" @update:open="onOpenChange">
