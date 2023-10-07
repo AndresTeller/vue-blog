@@ -3,9 +3,9 @@ import { IBlogPost } from "@/interfaces";
 export const navLinks = [
   {
     id: 1,
-    name: "Root",
-    label: "Blog",
-    href: "/Blog",
+    name: "CreateBlog",
+    label: "Create blog",
+    href: "/create-blog",
   },
   {
     id: 2,

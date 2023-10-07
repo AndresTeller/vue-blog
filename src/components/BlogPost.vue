@@ -7,8 +7,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { ArrowUpRight } from "lucide-vue-next";
+import Tag from "./Tag.vue";
 
 defineProps({
   title: {
@@ -58,20 +58,7 @@ defineProps({
       <CardDescription>{{ description }}</CardDescription>
     </CardHeader>
     <CardFooter class="flex gap-x-1 gap-y-2 flex-wrap">
-      <Badge
-        v-for="{ id, color, name } in tags"
-        :key="id"
-        :class="[
-          color === 'blue' && 'bg-blue-300 text-blue-600 hover:bg-blue-300/75',
-          color === 'purple' &&
-            'bg-purple-300 text-purple-600 hover:bg-purple-300/75',
-          color === 'red' && 'bg-red-300 text-red-600 hover:bg-red-300/75',
-          color === 'green' &&
-            'bg-green-300 text-green-600 hover:bg-green-300/75',
-        ]"
-      >
-        {{ name }}
-      </Badge>
+      <Tag v-for="{ id, color, name } in tags" :color="color" :name="name" :key="id"/>
     </CardFooter>
   </Card>
 </template>

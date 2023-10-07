@@ -37,7 +37,7 @@ const onSubmit = form.handleSubmit((values) => {
 <template>
   <Card class="flex flex-col w-full gap-y-5 max-w-md px-10 py-5">
     <span class="text-3xl font-bold">Sign in to your account</span>
-    <form @submit="onSubmit">
+    <form @submit="onSubmit" class="flex flex-col gap-y-5">
       <FormField v-slot="{ componentField }" name="email">
         <FormItem>
           <FormLabel>Your email</FormLabel>
