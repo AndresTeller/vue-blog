@@ -1,7 +1,7 @@
+import BlogViewVue from "@/views/BlogView.vue";
 import RootViewVue from "@/views/RootView.vue";
 import LoginViewVue from "@/views/LoginView.vue";
 import { createRouter, createWebHistory } from "vue-router";
-import BlogViewVue from "@/views/BlogView.vue";
 
 const routes = [
   { path: "/", name: "Root", component: RootViewVue },
