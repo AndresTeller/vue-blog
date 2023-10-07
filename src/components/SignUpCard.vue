@@ -8,8 +8,26 @@ import { Button } from "@/components/ui/button";
 
 <template>
   <Card class="flex flex-col w-full gap-y-5 max-w-md px-10 py-5">
-    <span class="text-3xl font-bold">Sign in to your account</span>
+    <span class="text-3xl font-bold">Create an account</span>
 
+    <div>
+      <Label for="name">Name</Label>
+      <Input
+        type="text"
+        placeholder="John"
+        id="name"
+        class="p-6 focus-visible:ring-transparent"
+      />
+    </div>
+    <div>
+      <Label for="lastname">Lastname</Label>
+      <Input
+        type="text"
+        placeholder="Doe"
+        id="lastname"
+        class="p-6 focus-visible:ring-transparent"
+      />
+    </div>
     <div>
       <Label for="email">Your email</Label>
       <Input
@@ -28,6 +46,15 @@ import { Button } from "@/components/ui/button";
         class="p-6 focus-visible:ring-transparent"
       />
     </div>
+    <div>
+      <Label for="password">Confirm password</Label>
+      <Input
+        type="password"
+        placeholder="password"
+        id="confirmPassword"
+        class="p-6 focus-visible:ring-transparent"
+      />
+    </div>
 
     <div class="flex justify-between">
       <div class="flex items-center space-x-2">
@@ -36,18 +63,17 @@ import { Button } from "@/components/ui/button";
           htmlFor="terms"
           class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         >
-          Remember me
+          I accept the Terms and Conditions
         </label>
       </div>
-      <router-link :to="{name: 'Root'}" class="text-blue-800 hover:text-blue-800/75">
-        Forgot password?
-      </router-link>
     </div>
     <Button class="">Sign in</Button>
     <p>
-      Don't have an account yet?
-      <router-link :to="{name: 'SignUp'}" class="text-blue-800 hover:text-blue-800/75"
-        >Sign up</router-link
+      Already have an account?
+      <router-link
+        :to="{ name: 'SignUp' }"
+        class="text-blue-800 hover:text-blue-800/75"
+        >Login here</router-link
       >
     </p>
   </Card>
