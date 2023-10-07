@@ -3,21 +3,25 @@ import { IBlogPost } from "@/interfaces";
 export const navLinks = [
   {
     id: 1,
+    name: "Root",
     label: "Blog",
     href: "/blog",
   },
   {
     id: 2,
+    name: "Root",
     label: "Projects",
     href: "/projects",
   },
   {
     id: 3,
+    name: "Root",
     label: "About",
     href: "/about",
   },
   {
     id: 4,
+    name: "Login",
     label: "Login",
     href: "/login",
   },

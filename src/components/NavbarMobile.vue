@@ -15,7 +15,9 @@ import { navLinks } from "@/constants";
 
 <template>
   <div class="flex justify-between items-center p-5 md:hidden">
-    <span class="text-2xl font-bold">AndrésTeller</span>
+    <router-link :to="{name: 'Root'}">
+      <span class="text-2xl font-bold">AndrésTeller</span>
+    </router-link>
 
     <DropdownMenu>
       <DropdownMenuTrigger as-child>
@@ -26,9 +28,15 @@ import { navLinks } from "@/constants";
       <DropdownMenuContent class="md:hidden">
         <DropdownMenuLabel>Personal Blog</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem v-for="navLink in navLinks" :key="navLink.id">
-          {{ navLink.label }}
-        </DropdownMenuItem>
+        <router-link
+          v-for="navLink in navLinks"
+          :key="navLink.id"
+          :to="{ name: navLink.name }"
+        >
+          <DropdownMenuItem>
+            {{ navLink.label }}
+          </DropdownMenuItem>
+        </router-link>
       </DropdownMenuContent>
     </DropdownMenu>
   </div>
