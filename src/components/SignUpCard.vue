@@ -1,10 +1,14 @@
 <script setup lang="ts">
+import * as z from "zod";
+import { Notyf } from "notyf";
+import { useRouter } from "vue-router";
+import { useForm } from "vee-validate";
+import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
-import * as z from "zod";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useUserStore } from "@/store/useUserStore";
 import {
   FormControl,
   FormField,
@@ -12,18 +16,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Card } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { ref } from "vue";
-import { db, auth } from "@/firebase/firebase.config";
 
-const isOpen = ref(false);
+const userStore = useUserStore();
+const notyf = new Notyf();
+const router = useRouter();
+const isLoading = ref<boolean>(false);
 
 const formSchema = toTypedSchema(
   z.object({
@@ -40,41 +38,32 @@ const form = useForm({
   validationSchema: formSchema,
 });
 
-const onOpenChange = (value: boolean) => {
-  isOpen.value = value;
-};
-
 const onSubmit = form.handleSubmit(
-  async ({
-    name,
-    lastname,
-    email,
-    confirmPassword,
-    password,
-  }) => {
-    const isPasswordsMatch = confirmPassword === password;
-
-    if (!isPasswordsMatch) {
-      onOpenChange(!isPasswordsMatch);
-      return;
-    }
-
+  async ({ name, lastname, email, confirmPassword, password }) => {
     try {
-      const { user } = await auth.createUserWithEmailAndPassword(
-        email,
-        password
-      );
+      isLoading.value = true;
+      const isPasswordsMatch = confirmPassword === password;
 
-      await db.collection("users").add({
-        id: user?.uid,
+      if (!isPasswordsMatch) {
+        notyf.error("Passwords dont match, please try again!");
+        return;
+      }
+
+      await userStore.createUser({
+        id: "",
         name,
+        email,
         lastname,
-        blogpsts: [],
+        password,
+        blogposts: [],
       });
 
-      console.log("User added successfully");
+      notyf.success("Your account has been created successfully!");
+      router.push({ name: "Root" });
     } catch (error) {
-      console.log(error);
+      notyf.error("Something went wrong, please try again!");
+    } finally {
+      isLoading.value = false;
     }
   }
 );
@@ -176,7 +165,9 @@ const onSubmit = form.handleSubmit(
         </FormItem>
       </FormField>
 
-      <Button type="submit" class="w-full"> Create an account </Button>
+      <Button type="submit" class="w-full" :disabled="isLoading">
+        Create an account
+      </Button>
     </form>
     <p>
       Already have an account?
@@ -187,13 +178,4 @@ const onSubmit = form.handleSubmit(
       >
     </p>
   </Card>
-
-  <Dialog :open="isOpen" @update:open="onOpenChange">
-    <DialogContent>
-      <DialogHeader>
-        <DialogTitle>Check your password</DialogTitle>
-        <DialogDescription> The passwords did not match </DialogDescription>
-      </DialogHeader>
-    </DialogContent>
-  </Dialog>
 </template>

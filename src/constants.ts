@@ -176,3 +176,5 @@ export const blogPosts: IBlogPost[] = [
     ],
   },
 ];
+
+export const publicRoutes = ["Login", "SignUp"];

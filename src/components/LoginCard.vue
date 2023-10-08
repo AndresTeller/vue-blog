@@ -13,6 +13,15 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
+import { Notyf } from "notyf";
+import { useUserStore } from "@/store/useUserStore";
+import { useRouter } from "vue-router";
+import { ref } from "vue";
+
+const notyf = new Notyf();
+const userStore = useUserStore();
+const router = useRouter();
+const isLoading = ref<boolean>(false);
 
 const formSchema = toTypedSchema(
   z.object({
@@ -29,8 +38,22 @@ const form = useForm({
   },
 });
 
-const onSubmit = form.handleSubmit((values) => {
-  console.log("Form submitted!", values);
+const onSubmit = form.handleSubmit(async ({ email, password }) => {
+  try {
+    isLoading.value = true;
+    await userStore.auth(email, password);
+
+    if (!userStore.isAuthenticated) {
+      throw new Error();
+    }
+
+    notyf.success("Login successfully!");
+    router.push({ name: "Root" });
+  } catch (error) {
+    notyf.error("Wrong credentials, please try again!");
+  } finally {
+    isLoading.value = false;
+  }
 });
 </script>
 
@@ -90,7 +113,9 @@ const onSubmit = form.handleSubmit((values) => {
         </FormItem>
       </FormField>
 
-      <Button type="submit" class="w-full"> Submit </Button>
+      <Button type="submit" class="w-full" :disabled="isLoading">
+        Submit
+      </Button>
     </form>
     <p>
       Don't have an account yet?

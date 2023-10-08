@@ -8,7 +8,7 @@ export interface IUser {
   id: string;
   name: string;
   lastname: string;
-  blogposts: Array<IBlogPost>
+  blogposts: Array<IBlogPost>;
 }
 
 export interface IBlogPost {
@@ -20,3 +20,10 @@ export interface IBlogPost {
   date: string;
   tags: Array<ITag>;
 }
+
+export interface IAuth {
+  email: string;
+  password: string;
+}
+
+export interface IUserAndAuth extends IUser, IAuth {}
