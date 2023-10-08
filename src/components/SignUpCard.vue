@@ -21,6 +21,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ref } from "vue";
+import { db, auth } from "@/firebase/firebase.config";
 
 const isOpen = ref(false);
 
@@ -43,10 +44,40 @@ const onOpenChange = (value: boolean) => {
   isOpen.value = value;
 };
 
-const onSubmit = form.handleSubmit((values) => {
-  const isPasswordWrong = values.confirmPassword !== values.password;
-  onOpenChange(isPasswordWrong);
-});
+const onSubmit = form.handleSubmit(
+  async ({
+    name,
+    lastname,
+    email,
+    confirmPassword,
+    password,
+  }) => {
+    const isPasswordsMatch = confirmPassword === password;
+
+    if (!isPasswordsMatch) {
+      onOpenChange(!isPasswordsMatch);
+      return;
+    }
+
+    try {
+      const { user } = await auth.createUserWithEmailAndPassword(
+        email,
+        password
+      );
+
+      await db.collection("users").add({
+        id: user?.uid,
+        name,
+        lastname,
+        blogpsts: [],
+      });
+
+      console.log("User added successfully");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 </script>
 
 <template>
