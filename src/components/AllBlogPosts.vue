@@ -1,6 +1,11 @@
 <script setup lang="ts">
-import { blogPosts } from "@/constants";
 import BlogPost from "./BlogPost.vue";
+import { computed } from "vue";
+import { useUserStore } from "@/store/useUserStore";
+
+const userStore = useUserStore();
+const blogPosts = computed(() => userStore.user.blogPosts);
+
 </script>
 
 <template>

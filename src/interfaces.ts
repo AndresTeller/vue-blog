@@ -8,7 +8,7 @@ export interface IUser {
   id: string;
   name: string;
   lastname: string;
-  blogposts: Array<IBlogPost>;
+  blogPosts: Array<IBlogPost>;
 }
 
 export interface IBlogPost {
@@ -17,7 +17,7 @@ export interface IBlogPost {
   description: string;
   content: string;
   imgUrl: string;
-  date: string;
+  date: Date;
   tags: Array<ITag>;
 }
 

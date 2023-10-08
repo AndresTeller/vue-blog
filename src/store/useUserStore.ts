@@ -1,17 +1,17 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
-import { IUser, IUserAndAuth } from "@/interfaces";
+import { IBlogPost, IUser, IUserAndAuth } from "@/interfaces";
 import { db, auth as authFirebase } from "@/firebase/firebase.config";
 
 export const useUserStore = defineStore("user", () => {
+  const isAuthenticated = ref<boolean>(false);
+
   const user = ref<IUser>({
     id: "",
     name: "",
     lastname: "",
-    blogposts: [],
+    blogPosts: [],
   });
-
-  const isAuthenticated = ref<boolean>(false);
 
   async function auth(email: string, password: string) {
     try {
@@ -45,7 +45,7 @@ export const useUserStore = defineStore("user", () => {
       id: "",
       name: "",
       lastname: "",
-      blogposts: [],
+      blogPosts: [],
     };
     isAuthenticated.value = false;
   }
@@ -65,7 +65,7 @@ export const useUserStore = defineStore("user", () => {
         id: response.user.uid,
         name,
         lastname,
-        blogposts: [],
+        blogPosts: [],
       };
 
       await db.collection("users").add(newUser);
@@ -77,5 +77,65 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-  return { auth, user, logOut, createUser, isAuthenticated };
+  async function createBlogPost({
+    id,
+    date,
+    title,
+    tags,
+    description,
+    content,
+    imgUrl,
+  }: IBlogPost) {
+    try {
+      const blogPost = {
+        id,
+        content,
+        date,
+        description,
+        imgUrl,
+        tags,
+        title,
+      };
+
+      const { docs } = await db.collection("users").get();
+
+      for (const doc of docs) {
+        const targetUser = doc.data();
+
+        if (targetUser.id === user.value.id) {
+          user.value.blogPosts.push(blogPost);
+          await db.collection("users").doc(doc.id).update({
+            blogPosts: user.value.blogPosts,
+          });
+        }
+        return;
+      }
+    } catch (error) {
+      console.log("[Create Blog Post]", error);
+    }
+  }
+
+  function getBlogPost(id: string) {
+    try {
+      console.log(id);
+      console.log(user.value.blogPosts);
+      const blogPost = user.value.blogPosts.find(
+        (blogPost) => blogPost.id === id
+      );
+
+      return blogPost;
+    } catch (error) {
+      console.log("[Get Blog Post]", error);
+    }
+  }
+
+  return {
+    auth,
+    user,
+    logOut,
+    createUser,
+    createBlogPost,
+    getBlogPost,
+    isAuthenticated,
+  };
 });

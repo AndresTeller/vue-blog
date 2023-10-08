@@ -22,8 +22,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card } from "./ui/card";
+import { useUserStore } from "@/store/useUserStore";
+import { Notyf } from "notyf";
+import { ref } from "vue";
+import { v4 as uuidv4 } from "uuid";
+import { useRouter } from "vue-router";
+
+const userStore = useUserStore();
+const router = useRouter();
+const notyf = new Notyf();
+const isLoading = ref<boolean>(false);
 
 const iTagSchema = z.object({
+  id: z.string(),
   name: z.string(),
   color: z.union([
     z.literal("blue"),
@@ -36,7 +47,7 @@ const iTagSchema = z.object({
 const formSchema = toTypedSchema(
   z.object({
     title: z.string().min(1).max(40),
-    description: z.string().min(20).max(50),
+    description: z.string().min(1),
     content: z.string().min(1),
     imgUrl: z.string().min(1),
     tags: z.array(iTagSchema).min(1),
@@ -45,12 +56,40 @@ const formSchema = toTypedSchema(
 
 const form = useForm({
   validationSchema: formSchema,
+  initialValues: {
+    tags: [
+      {
+        id: uuidv4(),
+        name: "",
+        color: "blue",
+      },
+    ],
+  },
 });
 
-const onSubmit = form.handleSubmit((values) => {
-  console.log(formSchema);
-  console.log("Form submitted!", values);
-});
+const onSubmit = form.handleSubmit(
+  async ({ title, content, description, imgUrl, tags }) => {
+    try {
+      isLoading.value = true;
+      await userStore.createBlogPost({
+        id: uuidv4(),
+        date: new Date(),
+        title,
+        content,
+        description,
+        imgUrl,
+        tags,
+      });
+      notyf.success("The blog was created successfully!");
+      router.push({ name: "Root" });
+    } catch (error) {
+      notyf.error("Something went wrong, please try again!");
+      console.log(error);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+);
 </script>
 
 <template>
@@ -179,7 +218,9 @@ const onSubmit = form.handleSubmit((values) => {
         </FormItem>
       </FormField>
 
-      <Button class="w-full" type="submit"> Submit </Button>
+      <Button class="w-full" type="submit" :disabled="isLoading">
+        Submit
+      </Button>
     </form>
   </Card>
 </template>

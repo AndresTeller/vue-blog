@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/card";
 import { ArrowUpRight } from "lucide-vue-next";
 import Tag from "./Tag.vue";
+import dayjs from "dayjs";
+import firebase from "firebase";
 
 defineProps({
   title: {
@@ -25,7 +27,7 @@ defineProps({
   },
   date: {
     //TO DO: Change type String to Date
-    type: String,
+    type: [Date, firebase.firestore.Timestamp],
     required: true,
   },
   tags: {
@@ -49,7 +51,12 @@ defineProps({
           class="rounded-md w-full h-64 object-cover"
         />
       </div>
-      <span class="text-[#6941C6] font-semibold">{{ date }}</span>
+      <span class="text-[#6941C6] font-semibold" v-if="date instanceof Date">
+        {{ dayjs(date).format("DD MMMM YYYY") }}
+      </span>
+      <span class="text-[#6941C6] font-semibold" v-else>
+        {{ dayjs(date.toDate()).format("DD MMMM YYYY") }}
+      </span>
       <!-- TO DO: Add link with href -->
       <CardTitle class="flex justify-between items-center">
         {{ title }}
@@ -58,7 +65,12 @@ defineProps({
       <CardDescription>{{ description }}</CardDescription>
     </CardHeader>
     <CardFooter class="flex gap-x-1 gap-y-2 flex-wrap">
-      <Tag v-for="{ id, color, name } in tags" :color="color" :name="name" :key="id"/>
+      <Tag
+        v-for="{ id, color, name } in tags"
+        :color="color"
+        :name="name"
+        :key="id"
+      />
     </CardFooter>
   </Card>
 </template>
