@@ -3,18 +3,48 @@ import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { useUserStore } from "@/store/useUserStore";
 import { IBlogPost } from "@/interfaces";
-import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import dayjs from "dayjs";
 import firebase from "firebase";
+import { Notyf } from "notyf";
+import { X } from "lucide-vue-next";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import router from "@/router";
+import Tag from "@/components/Tag.vue";
 
 const route = useRoute();
+const notyf = new Notyf();
 const blogPost = ref<IBlogPost | undefined>(undefined);
 const userStore = useUserStore();
+const isOpen = ref<boolean>(false);
 
 if (typeof route.params.id === "string") {
   blogPost.value = userStore.getBlogPost(route.params.id);
 }
+
+const onOpenChange = (value: boolean) => {
+  isOpen.value = value;
+};
+
+const handleDelete = () => {
+  try {
+    if (typeof route.params.id === "string") {
+      userStore.deleteBlogPost(route.params.id);
+      notyf.success("Delete blog post succesfully");
+      router.push({ name: "Root" });
+    }
+  } catch (error) {
+    notyf.error("Something went wrong!");
+  }
+};
 </script>
 
 <template>
@@ -49,31 +79,52 @@ if (typeof route.params.id === "string") {
 
     <div class="flex flex-col gap-y-4 justify-center md:items-center">
       <h1 class="text-2xl font-bold text-center">{{ blogPost.title }}</h1>
-      <img
-        :src="blogPost.imgUrl"
-        alt="blog post"
-        class="rounded-md object-cover max-h-96 max-w-2xl"
-      />
+
+      <div class="relative">
+        <X
+          class="text-rose-500 absolute right-0 h-7 w-7 hover:text-rose-500/75 cursor-pointer"
+          @click="() => onOpenChange(true)"
+        />
+        <img
+          :src="blogPost.imgUrl"
+          alt="blog post"
+          class="rounded-md object-cover max-h-96 max-w-2xl"
+        />
+      </div>
+      <div class="flex flex-wrap items-center gap-x-2 gap-y-2 py-4">
+        <Tag
+          v-for="{ id, color, name } in blogPost.tags"
+          :key="id"
+          :color="color"
+          :name="name"
+        />
+      </div>
       <p>
         {{ blogPost.description }}
       </p>
-      <div class="flex flex-wrap items-center gap-x-2 gap-y-2 py-4">
-        <Badge
-          v-for="{ id, color, name } in blogPost.tags"
-          :key="id"
-          :class="[
-            color === 'blue' &&
-              'bg-blue-300 text-blue-600 hover:bg-blue-300/75',
-            color === 'purple' &&
-              'bg-purple-300 text-purple-600 hover:bg-purple-300/75',
-            color === 'red' && 'bg-red-300 text-red-600 hover:bg-red-300/75',
-            color === 'green' &&
-              'bg-green-300 text-green-600 hover:bg-green-300/75',
-          ]"
-        >
-          {{ name }}
-        </Badge>
-      </div>
+      <p>
+        {{ blogPost.content }}
+      </p>
     </div>
+
+    <Dialog :open="isOpen" @update:open="onOpenChange">
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Delete blog post</DialogTitle>
+          <DialogDescription>
+            Are you sure to delete this blog post? This action is irreversible.
+          </DialogDescription>
+        </DialogHeader>
+
+        <DialogFooter>
+          <Button variant="ghost" @click="() => onOpenChange(false)"
+            >Cancel</Button
+          >
+          <Button variant="destructive" class="" @click="handleDelete"
+            >Delete</Button
+          >
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   </section>
 </template>

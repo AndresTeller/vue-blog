@@ -35,7 +35,7 @@ const isLoading = ref<boolean>(false);
 
 const iTagSchema = z.object({
   id: z.string(),
-  name: z.string(),
+  name: z.string().min(1),
   color: z.union([
     z.literal("blue"),
     z.literal("green"),
@@ -46,7 +46,7 @@ const iTagSchema = z.object({
 
 const formSchema = toTypedSchema(
   z.object({
-    title: z.string().min(1).max(40),
+    title: z.string().min(1).max(60),
     description: z.string().min(1),
     content: z.string().min(1),
     imgUrl: z.string().min(1),

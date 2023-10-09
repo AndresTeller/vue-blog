@@ -68,7 +68,8 @@ export const useUserStore = defineStore("user", () => {
         blogPosts: [],
       };
 
-      await db.collection("users").add(newUser);
+      const customDocRef = db.collection("users").doc(response.user.uid);
+      await customDocRef.set(newUser);
 
       user.value = newUser;
       isAuthenticated.value = true;
@@ -129,6 +130,24 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
+  async function deleteBlogPost(id: string) {
+    try {
+      const userRef = db.collection("users").doc(user.value.id);
+
+      const updatedBlogPosts = user.value.blogPosts.filter(
+        (blogpost) => blogpost.id !== id
+      );
+
+      user.value.blogPosts = updatedBlogPosts;
+
+      userRef.update({
+        blogPosts: updatedBlogPosts,
+      });
+    } catch (error) {
+      console.log("[Delete Blog Post]", error);
+    }
+  }
+
   return {
     auth,
     user,
@@ -136,6 +155,7 @@ export const useUserStore = defineStore("user", () => {
     createUser,
     createBlogPost,
     getBlogPost,
+    deleteBlogPost,
     isAuthenticated,
   };
 });

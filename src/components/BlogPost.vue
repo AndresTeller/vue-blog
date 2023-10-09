@@ -41,7 +41,7 @@ defineProps({
 
 <template>
   <Card
-    class="min-w-[300px] hover:cursor-pointer hover:scale-105 transition ease-in-out delay-150"
+    class="min-w-[350px] hover:cursor-pointer hover:scale-105 transition ease-in-out delay-150"
   >
     <CardHeader>
       <div class="flex items-center justify-center">
