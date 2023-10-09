@@ -2,7 +2,7 @@ import { computed, ref } from "vue";
 import { defineStore } from "pinia";
 import { IBlogPost, IUser, IUserAndAuth } from "@/interfaces";
 import { db, auth as authFirebase } from "@/firebase/firebase.config";
-import { blogPosts as seedPosts } from "@/constants";
+import { blogPosts, blogPosts as seedPosts } from "@/constants";
 
 export const useUserStore = defineStore("user", () => {
   const isAuthenticated = ref<boolean>(false);
@@ -99,7 +99,7 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-  async function deleteBlogPost(id: string) {
+  function deleteBlogPost(id: string) {
     try {
       const userRef = db.collection("users").doc(user.value.id);
 
@@ -115,7 +115,7 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-  async function seedBlogPosts() {
+  function seedBlogPosts() {
     try {
       if (user.value.blogPosts.length > 0) return;
       const userRef = db.collection("users").doc(user.value.id);
@@ -129,16 +129,53 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
+  function updateBlogPost({
+    content,
+    date,
+    description,
+    imgUrl,
+    title,
+    id,
+  }: IBlogPost) {
+    try {
+      const userRef = db.collection("users").doc(user.value.id);
+
+      const blogPostsToUpdate = user.value.blogPosts;
+
+      const indexOfBlogToUpdate = blogPostsToUpdate.findIndex(
+        (blogPost) => blogPost.id === id
+      );
+
+      const currentBlogPost = blogPostsToUpdate[indexOfBlogToUpdate];
+      blogPostsToUpdate[indexOfBlogToUpdate] = {
+        date,
+        title,
+        imgUrl,
+        content,
+        description,
+        id: currentBlogPost.id,
+        tags: currentBlogPost.tags,
+      };
+
+      userRef.update({
+        blogPosts: blogPostsToUpdate,
+      });
+    } catch (error) {
+      console.log("[Update Blog Post]", error);
+    }
+  }
+
   return {
     auth,
     user,
     logOut,
     createUser,
-    createBlogPost,
     getBlogPost,
-    deleteBlogPost,
     seedBlogPosts,
-    recentBlogPosts,
+    createBlogPost,
+    deleteBlogPost,
+    updateBlogPost,
     isAuthenticated,
+    recentBlogPosts,
   };
 });

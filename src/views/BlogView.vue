@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import dayjs from "dayjs";
 import firebase from "firebase";
 import { Notyf } from "notyf";
-import { X } from "lucide-vue-next";
+import { MoreVertical } from "lucide-vue-next";
 import {
   Dialog,
   DialogContent,
@@ -19,6 +19,16 @@ import {
 import { Button } from "@/components/ui/button";
 import router from "@/router";
 import Tag from "@/components/Tag.vue";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Trash } from "lucide-vue-next";
+import { Pencil } from "lucide-vue-next";
 
 const route = useRoute();
 const notyf = new Notyf();
@@ -44,6 +54,10 @@ const handleDelete = () => {
   } catch (error) {
     notyf.error("Something went wrong!");
   }
+};
+
+const handleEdit = () => {
+  router.push({ name: "UpdateBlog" });
 };
 </script>
 
@@ -81,10 +95,27 @@ const handleDelete = () => {
       <h1 class="text-2xl font-bold text-center">{{ blogPost.title }}</h1>
 
       <div class="relative">
-        <X
-          class="text-rose-500 absolute right-0 h-7 w-7 hover:text-rose-500/75 cursor-pointer"
-          @click="() => onOpenChange(true)"
-        />
+        <DropdownMenu>
+          <DropdownMenuTrigger
+            class="text-slate-100 absolute top-2 right-0 h-7 w-7 hover:text-slate-100/75 cursor-pointer"
+            ><MoreVertical
+          /></DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              class="cursor-pointer"
+              @click="() => onOpenChange(true)"
+            >
+              <Trash class="mr-2 h-4 w-4 text-rose-500" />
+              <span class="text-rose-500">Delete</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem class="cursor-pointer" @click="handleEdit">
+              <Pencil class="mr-2 h-4 w-4 text-blue-500" />
+              <span class="text-blue-500">Edit</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <img
           :src="blogPost.imgUrl"
           alt="blog post"

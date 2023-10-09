@@ -1,11 +1,12 @@
-import BlogViewVue from "@/views/BlogView.vue";
+import { publicRoutes } from "@/constants";
 import RootViewVue from "@/views/RootView.vue";
+import BlogViewVue from "@/views/BlogView.vue";
 import LoginViewVue from "@/views/LoginView.vue";
 import SignupViewVue from "@/views/SignupView.vue";
-import CreateBlogViewVue from "@/views/CreateBlogView.vue";
-import { createRouter, createWebHistory } from "vue-router";
 import { useUserStore } from "@/store/useUserStore";
-import { publicRoutes } from "@/constants";
+import CreateBlogViewVue from "@/views/CreateBlogView.vue";
+import UpdateBlogViewVue from "@/views/UpdateBlogView.vue";
+import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
   { path: "/", name: "Root", component: RootViewVue },
@@ -13,6 +14,11 @@ const routes = [
   { path: "/blogs/:id", name: "Blog", component: BlogViewVue },
   { path: "/sign-up", name: "SignUp", component: SignupViewVue },
   { path: "/create-blog", name: "CreateBlog", component: CreateBlogViewVue },
+  {
+    path: "/update-blog/:id",
+    name: "UpdateBlog",
+    component: UpdateBlogViewVue,
+  },
 ];
 
 const router = createRouter({

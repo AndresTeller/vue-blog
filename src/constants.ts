@@ -1,4 +1,5 @@
 import { IBlogPost } from "@/interfaces";
+import { v4 as uuidv4 } from "uuid";
 
 export const navLinks = [
   {
@@ -29,7 +30,7 @@ export const navLinks = [
 
 export const blogPosts: IBlogPost[] = [
   {
-    id: "1",
+    id: uuidv4(),
     title: "UX review presentations",
     description:
       "How do you create compelling presentations that wow your colleagues and impress your managers?",
@@ -87,7 +88,7 @@ Remember, the goal of a UX review presentation is to not only inform but also in
     ],
   },
   {
-    id: "2",
+    id: uuidv4(),
     title: "Migrating to Linear 101",
     description:
       "Linear helps streamline software projects, sprints, tasks, and bug tracking. Here’s how to get...",
@@ -132,7 +133,7 @@ Migrating to Linear offers the potential to significantly enhance your project m
     ],
   },
   {
-    id: "3",
+    id: uuidv4(),
     title: "Building your API Stack",
     description:
       "The rise of RESTful APIs has been met by a rise in tools for creating, testing, and manage...",
@@ -180,7 +181,7 @@ Building a robust API stack involves careful consideration of frameworks, securi
     ],
   },
   {
-    id: "4",
+    id: uuidv4(),
     title: "Grid system for better Design User Interface",
     description:
       "A grid system is a design tool used to arrange content on a webpage. ",
@@ -228,7 +229,7 @@ Integrating a grid system into your UI design approach provides a solid framewor
     ],
   },
   {
-    id: "5",
+    id: uuidv4(),
     title: "Grid system for better Design User Interface",
     description:
       "A grid system is a design tool used to arrange content on a webpage. ",
@@ -278,7 +279,7 @@ Implementing a well-structured grid system in your UI design not only improves t
     ],
   },
   {
-    id: "6",
+    id: uuidv4(),
     title: "Grid system for better Design User Interface",
     description:
       "A grid system is a design tool used to arrange content on a webpage. ",
