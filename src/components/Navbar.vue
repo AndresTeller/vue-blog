@@ -19,7 +19,7 @@ const userStore = useUserStore();
         <router-link
           class="text-slate-900 hover:text-slate-900/75"
           :to="{ name: navlink.name }"
-          v-else="userStore.isAuthenticated && navlink.name === 'Login'"
+          v-else
         >
           {{ navlink.label }}
         </router-link>
