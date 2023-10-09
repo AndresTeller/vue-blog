@@ -2,12 +2,11 @@
 import { computed, onMounted } from "vue";
 import BlogPost from "./BlogPost.vue";
 import { useRouter } from "vue-router";
-import { useBlogPostStore } from "@/store/useBlogPostStore";
+import { useUserStore } from "@/store/useUserStore";
 
 const router = useRouter();
-const blogPostsStore = useBlogPostStore();
-const blogPosts = computed(() => blogPostsStore.recentBlogPosts);
-
+const userStore = useUserStore();
+const blogPosts = computed(() => userStore.recentBlogPosts);
 
 const redirectToBlogPost = (id: string) => {
   router.push({
@@ -17,7 +16,7 @@ const redirectToBlogPost = (id: string) => {
 };
 
 onMounted(() => {
-  blogPostsStore.seedBlogPosts();
+  userStore.seedBlogPosts();
 });
 </script>
 
@@ -30,14 +29,7 @@ onMounted(() => {
       class="p-10 gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center container mx-auto"
     >
       <BlogPost
-        v-for="{
-          id,
-          title,
-          description,
-          imgUrl,
-          date,
-          tags,
-        } in blogPosts"
+        v-for="{ id, title, description, imgUrl, date, tags } in blogPosts"
         :key="id"
         :date="date"
         :tags="tags"

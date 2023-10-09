@@ -1,10 +1,13 @@
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { defineStore } from "pinia";
 import { IBlogPost, IUser, IUserAndAuth } from "@/interfaces";
 import { db, auth as authFirebase } from "@/firebase/firebase.config";
+import { blogPosts as seedPosts } from "@/constants";
 
 export const useUserStore = defineStore("user", () => {
   const isAuthenticated = ref<boolean>(false);
+
+  const recentBlogPosts = computed(() => user.value.blogPosts.slice(0, 4));
 
   const user = ref<IUser>({
     id: "",
@@ -24,17 +27,11 @@ export const useUserStore = defineStore("user", () => {
         throw new Error("User not found");
       }
 
-      const { docs } = await db.collection("users").get();
+      const userRef = db.collection("users").doc(response.user.uid);
+      const userData = (await userRef.get()).data();
 
-      for (const doc of docs) {
-        const userResponse = doc.data();
-
-        if (userResponse.id === response.user.uid) {
-          isAuthenticated.value = true;
-          user.value = { ...userResponse } as IUser;
-        }
-        return;
-      }
+      user.value = { ...userData } as IUser;
+      isAuthenticated.value = true;
     } catch (error) {
       console.log("[Auth User]", error);
     }
@@ -78,39 +75,13 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-  async function createBlogPost({
-    id,
-    date,
-    title,
-    tags,
-    description,
-    content,
-    imgUrl,
-  }: IBlogPost) {
+  async function createBlogPost(blogPost: IBlogPost) {
     try {
-      const blogPost = {
-        id,
-        content,
-        date,
-        description,
-        imgUrl,
-        tags,
-        title,
-      };
+      const userRef = db.collection("users").doc(user.value.id);
 
-      const { docs } = await db.collection("users").get();
+      user.value.blogPosts.push(blogPost);
 
-      for (const doc of docs) {
-        const targetUser = doc.data();
-
-        if (targetUser.id === user.value.id) {
-          user.value.blogPosts.push(blogPost);
-          await db.collection("users").doc(doc.id).update({
-            blogPosts: user.value.blogPosts,
-          });
-        }
-        return;
-      }
+      await userRef.update({ blogPosts: user.value.blogPosts });
     } catch (error) {
       console.log("[Create Blog Post]", error);
     }
@@ -118,8 +89,6 @@ export const useUserStore = defineStore("user", () => {
 
   function getBlogPost(id: string) {
     try {
-      console.log(id);
-      console.log(user.value.blogPosts);
       const blogPost = user.value.blogPosts.find(
         (blogPost) => blogPost.id === id
       );
@@ -140,11 +109,23 @@ export const useUserStore = defineStore("user", () => {
 
       user.value.blogPosts = updatedBlogPosts;
 
-      userRef.update({
-        blogPosts: updatedBlogPosts,
-      });
+      userRef.update({ blogPosts: updatedBlogPosts });
     } catch (error) {
       console.log("[Delete Blog Post]", error);
+    }
+  }
+
+  async function seedBlogPosts() {
+    try {
+      if (user.value.blogPosts.length > 0) return;
+      const userRef = db.collection("users").doc(user.value.id);
+      const newBlogPosts = user.value.blogPosts.concat(seedPosts);
+      user.value.blogPosts = newBlogPosts;
+      userRef.update({
+        blogPosts: newBlogPosts,
+      });
+    } catch (error) {
+      console.log("[Seed Blog Posts]", error);
     }
   }
 
@@ -156,6 +137,8 @@ export const useUserStore = defineStore("user", () => {
     createBlogPost,
     getBlogPost,
     deleteBlogPost,
+    seedBlogPosts,
+    recentBlogPosts,
     isAuthenticated,
   };
 });
