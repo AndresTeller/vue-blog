@@ -56,7 +56,7 @@ const onSubmit = form.handleSubmit(
         tags: [],
       });
       
-      notyf.success("The blog was created successfully!");
+      notyf.success("The blog was updated successfully!");
       router.push({ name: "Root" });
     } catch (error) {
       notyf.error("Something went wrong, please try again!");
@@ -70,7 +70,7 @@ const onSubmit = form.handleSubmit(
 
 <template>
   <Card class="flex flex-col w-full gap-y-5 max-w-md px-10 py-5 max-h-fit">
-    <span class="text-3xl font-bold">Create your blog post</span>
+    <span class="text-3xl font-bold">Edit your blog post</span>
     <form @submit="onSubmit" class="flex flex-col gap-y-5">
       <FormField v-slot="{ componentField }" name="imgUrl">
         <FormItem>
