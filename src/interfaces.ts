@@ -8,7 +8,7 @@ export interface IUser {
   id: string;
   name: string;
   lastname: string;
-  blogPosts: Array<IBlogPost>;
+  blogPosts: IBlogPost[];
 }
 
 export interface IBlogPost {

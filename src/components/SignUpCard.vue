@@ -55,7 +55,7 @@ const onSubmit = form.handleSubmit(
         email,
         lastname,
         password,
-        blogposts: [],
+        blogPosts: [],
       });
 
       notyf.success("Your account has been created successfully!");
