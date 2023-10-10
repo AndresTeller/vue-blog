@@ -2,7 +2,7 @@ import { computed, ref } from "vue";
 import { defineStore } from "pinia";
 import { IBlogPost, IUser, IUserAndAuth } from "@/interfaces";
 import { db, auth as authFirebase } from "@/firebase/firebase.config";
-import { blogPosts, blogPosts as seedPosts } from "@/constants";
+import { blogPosts as seedPosts } from "@/constants";
 
 export const useUserStore = defineStore("user", () => {
   const isAuthenticated = ref<boolean>(false);

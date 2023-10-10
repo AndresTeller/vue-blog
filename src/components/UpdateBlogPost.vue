@@ -17,7 +17,6 @@ import { Card } from "./ui/card";
 import { useUserStore } from "@/store/useUserStore";
 import { Notyf } from "notyf";
 import { ref } from "vue";
-import { v4 as uuidv4 } from "uuid";
 import { useRouter, useRoute } from "vue-router";
 
 const userStore = useUserStore();

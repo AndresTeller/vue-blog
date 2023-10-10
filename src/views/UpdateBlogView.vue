@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-import { useRoute } from "vue-router";
 import UpdateBlogPost from "@/components/UpdateBlogPost.vue";
-const route = useRoute();
 </script>
 
 <template>
